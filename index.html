@@ -4,10 +4,332 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>HelloBuyer ERP - Supermarket System</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#1e4a76">
-  <meta name="description" content="Simple supermarket ERP for HelloBuyer">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: #f5f7fa;
+      color: #1a2a3a;
+    }
+
+    .app-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      min-height: 100vh;
+      box-shadow: 0 0 20px rgba(0,0,0,0.05);
+    }
+
+    /* Login */
+    .login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1e4a76 0%, #0f2b40 100%);
+      padding: 1rem;
+    }
+
+    .login-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 24px;
+      width: 100%;
+      max-width: 350px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+
+    .logo-container {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .logo-container h1 {
+      color: #1e4a76;
+      font-size: 1.8rem;
+    }
+
+    .logo-container p {
+      color: #6b7a8a;
+      font-size: 0.9rem;
+    }
+
+    /* Header */
+    .header {
+      background: #1e4a76;
+      color: white;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 0.8rem;
+    }
+
+    .logo small {
+      font-size: 0.7rem;
+      font-weight: normal;
+      margin-left: 0.3rem;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      background: #2c6288;
+      border: none;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.1s;
+    }
+
+    .nav-btn:active {
+      transform: scale(0.96);
+    }
+
+    .nav-btn.active {
+      background: #ffb347;
+      color: #1e4a76;
+    }
+
+    .logout {
+      background: #b91c1c;
+    }
+
+    /* Main Content */
+    .main-content {
+      padding: 1rem;
+    }
+
+    /* Cards */
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      border: 1px solid #e2e8f0;
+    }
+
+    .card h3 {
+      color: #1e4a76;
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+
+    /* Dashboard Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 1rem;
+      border-radius: 16px;
+      border-left: 4px solid #1e4a76;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #1e4a76;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: #6b7a8a;
+      margin-top: 0.3rem;
+    }
+
+    /* Buttons */
+    .btn-primary {
+      background: #1e4a76;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 40px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .btn-secondary {
+      background: #e2e8f0;
+      color: #1e4a76;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .btn-danger {
+      background: #dc2626;
+      color: white;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .btn-icon {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 0.3rem;
+    }
+
+    /* Forms */
+    input, select {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0 1rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 1rem;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .search-box input {
+      flex: 1;
+      margin: 0;
+    }
+
+    /* Tables */
+    .products-table {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 0.8rem 0.3rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    th {
+      color: #1e4a76;
+      font-weight: 600;
+    }
+
+    /* Cart */
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .cart-total {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #1e4a76;
+      margin: 1rem 0;
+    }
+
+    .flex-between {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .product-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      background: #f8fafc;
+      border-radius: 12px;
+    }
+
+    .low-stock {
+      background: #fef3c7;
+      color: #d97706;
+      padding: 0.2rem 0.5rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      background: #1e4a76;
+      color: white;
+      text-align: center;
+      padding: 0.8rem;
+      border-radius: 50px;
+      z-index: 1000;
+      font-size: 0.9rem;
+    }
+
+    .toast.show {
+      display: block;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .demo-hint {
+      margin-top: 1rem;
+      padding: 0.5rem;
+      background: #e2e8f0;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .nav-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.75rem;
+      }
+      
+      .card {
+        padding: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="app-container">
@@ -16,14 +338,14 @@
       <div class="login-card">
         <div class="logo-container">
           <h1>🛒 HelloBuyer</h1>
-          <p>Supermarket ERP</p>
+          <p>Supermarket ERP System</p>
         </div>
-        <input type="email" id="loginEmail" placeholder="Email" autocomplete="email">
-        <input type="password" id="loginPassword" placeholder="Password">
-        <button id="loginBtn" class="btn-primary">Login</button>
-       <p class="demo-hint" style="margin-top: 1rem; padding: 0.5rem; background: #e2e8f0; border-radius: 8px;">
-  🔑 Login: admin@hellobuyer.com / admin123
-</p>
+        <input type="email" id="loginEmail" placeholder="Email" autocomplete="email" value="admin@hellobuyer.com">
+        <input type="password" id="loginPassword" placeholder="Password" value="admin123">
+        <button id="loginBtn" class="btn-primary">Login to Dashboard</button>
+        <div class="demo-hint">
+          🔑 Use: admin@hellobuyer.com / admin123
+        </div>
       </div>
     </div>
 
@@ -35,7 +357,7 @@
           <small>ERP</small>
         </div>
         <div class="nav-buttons">
-          <button class="nav-btn" data-page="dashboard">📊 Dashboard</button>
+          <button class="nav-btn active" data-page="dashboard">📊 Dashboard</button>
           <button class="nav-btn" data-page="products">📦 Products</button>
           <button class="nav-btn" data-page="pos">💰 POS</button>
           <button class="nav-btn" data-page="reports">📈 Reports</button>
@@ -50,11 +372,590 @@
 
   <div id="toast" class="toast hidden"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/offline.js"></script>
-  <script src="js/app.js"></script>
-  <script src="js/products.js"></script>
-  <script src="js/pos.js"></script>
-  <script src="js/reports.js"></script>
+  <script>
+    // ==================== HELLOBUYER ERP SYSTEM ====================
+    // Complete working system - No external dependencies needed
+    
+    let db = null;
+    let currentUser = null;
+    
+    // Show toast message
+    function showToast(message, duration = 2000) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), duration);
+    }
+    
+    // Initialize IndexedDB
+    function initDB() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open('HelloBuyerDB', 3);
+        
+        request.onerror = () => reject(request.error);
+        request.onsuccess = () => {
+          db = request.result;
+          seedInitialData();
+          resolve(db);
+        };
+        
+        request.onupgradeneeded = (event) => {
+          const db = event.target.result;
+          
+          if (!db.objectStoreNames.contains('products')) {
+            const productStore = db.createObjectStore('products', { keyPath: 'id', autoIncrement: true });
+            productStore.createIndex('name', 'name');
+          }
+          if (!db.objectStoreNames.contains('sales')) {
+            db.createObjectStore('sales', { keyPath: 'id', autoIncrement: true });
+          }
+          if (!db.objectStoreNames.contains('sale_items')) {
+            db.createObjectStore('sale_items', { keyPath: 'id', autoIncrement: true });
+          }
+        };
+      });
+    }
+    
+    // Seed default products
+    async function seedInitialData() {
+      const products = await getAllProducts();
+      if (products.length === 0) {
+        const defaultProducts = [
+          { name: 'Fresh Milk 1L', price: 3.99, quantity: 50, barcode: '890123456789', created_at: new Date().toISOString() },
+          { name: 'Wheat Bread', price: 2.49, quantity: 30, barcode: '890123456788', created_at: new Date().toISOString() },
+          { name: 'Eggs (12pcs)', price: 4.29, quantity: 25, barcode: '890123456787', created_at: new Date().toISOString() },
+          { name: 'White Rice 1kg', price: 5.99, quantity: 40, barcode: '890123456786', created_at: new Date().toISOString() },
+          { name: 'Cooking Oil 1L', price: 7.49, quantity: 20, barcode: '890123456785', created_at: new Date().toISOString() },
+          { name: 'Sugar 1kg', price: 1.99, quantity: 60, barcode: '890123456784', created_at: new Date().toISOString() }
+        ];
+        
+        for (const product of defaultProducts) {
+          await addProduct(product);
+        }
+      }
+    }
+    
+    // Database operations
+    function getAllProducts() {
+      return new Promise((resolve) => {
+        if (!db) { resolve([]); return; }
+        const transaction = db.transaction(['products'], 'readonly');
+        const store = transaction.objectStore('products');
+        const request = store.getAll();
+        request.onsuccess = () => resolve(request.result || []);
+        request.onerror = () => resolve([]);
+      });
+    }
+    
+    function addProduct(product) {
+      return new Promise((resolve, reject) => {
+        const transaction = db.transaction(['products'], 'readwrite');
+        const store = transaction.objectStore('products');
+        const request = store.add(product);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+    }
+    
+    function updateProduct(product) {
+      return new Promise((resolve, reject) => {
+        const transaction = db.transaction(['products'], 'readwrite');
+        const store = transaction.objectStore('products');
+        const request = store.put(product);
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+      });
+    }
+    
+    function deleteProduct(id) {
+      return new Promise((resolve, reject) => {
+        const transaction = db.transaction(['products'], 'readwrite');
+        const store = transaction.objectStore('products');
+        const request = store.delete(id);
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+      });
+    }
+    
+    function getSales() {
+      return new Promise((resolve) => {
+        if (!db) { resolve([]); return; }
+        const transaction = db.transaction(['sales'], 'readonly');
+        const store = transaction.objectStore('sales');
+        const request = store.getAll();
+        request.onsuccess = () => resolve(request.result || []);
+        request.onerror = () => resolve([]);
+      });
+    }
+    
+    function addSale(sale) {
+      return new Promise((resolve, reject) => {
+        const transaction = db.transaction(['sales'], 'readwrite');
+        const store = transaction.objectStore('sales');
+        const request = store.add(sale);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+    }
+    
+    function addSaleItem(item) {
+      return new Promise((resolve, reject) => {
+        const transaction = db.transaction(['sale_items'], 'readwrite');
+        const store = transaction.objectStore('sale_items');
+        const request = store.add(item);
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+      });
+    }
+    
+    // Render Dashboard
+    async function renderDashboard() {
+      const products = await getAllProducts();
+      const sales = await getSales();
+      
+      const totalProducts = products.length;
+      const lowStock = products.filter(p => p.quantity <= 5).length;
+      
+      const today = new Date().toISOString().split('T')[0];
+      const todaySales = sales.filter(sale => {
+        const saleDate = sale.created_at ? sale.created_at.split('T')[0] : '';
+        return saleDate === today;
+      }).reduce((sum, sale) => sum + (sale.total || 0), 0);
+      
+      const content = document.getElementById('pageContent');
+      content.innerHTML = `
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number">${totalProducts}</div>
+            <div class="stat-label">Total Products</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">$${todaySales.toFixed(2)}</div>
+            <div class="stat-label">Today's Sales</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">${lowStock}</div>
+            <div class="stat-label">Low Stock Items</div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>⚡ Quick Actions</h3>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+            <button id="quickPosBtn" class="btn-primary" style="width: auto;">💰 Make a Sale</button>
+            <button id="quickProductBtn" class="btn-secondary" style="width: auto;">📦 Add Product</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3>📊 Recent Sales</h3>
+          <div id="recentSales">
+            ${sales.slice(-5).reverse().map(sale => `
+              <div class="flex-between" style="padding: 0.5rem 0; border-bottom: 1px solid #e2e8f0;">
+                <span>Sale #${sale.id}</span>
+                <strong>$${sale.total.toFixed(2)}</strong>
+                <span style="font-size: 0.8rem; color: #6b7a8a;">${new Date(sale.created_at).toLocaleDateString()}</span>
+              </div>
+            `).join('') || '<p>No sales yet. Start selling!</p>'}
+          </div>
+        </div>
+      `;
+      
+      document.getElementById('quickPosBtn')?.addEventListener('click', () => navigateTo('pos'));
+      document.getElementById('quickProductBtn')?.addEventListener('click', () => navigateTo('products'));
+    }
+    
+    // Render Products
+    async function renderProducts() {
+      const products = await getAllProducts();
+      
+      const content = document.getElementById('pageContent');
+      content.innerHTML = `
+        <div class="card">
+          <h3>📦 Product Management</h3>
+          <div class="search-box">
+            <input type="text" id="searchProduct" placeholder="🔍 Search by name or barcode...">
+            <button id="addProductBtn" class="btn-primary" style="width: auto;">➕ Add</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="products-table">
+            <table>
+              <thead>
+                <tr><th>Name</th><th>Price</th><th>Stock</th><th>Barcode</th><th>Actions</th></tr>
+              </thead>
+              <tbody id="productsList"></tbody>
+            </table>
+          </div>
+        </div>
+      `;
+      
+      function renderList(filteredProducts) {
+        const tbody = document.getElementById('productsList');
+        if (filteredProducts.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No products found</td></tr>';
+          return;
+        }
+        
+        tbody.innerHTML = filteredProducts.map(p => `
+          <tr>
+            <td>${escapeHtml(p.name)}</td>
+            <td>$${p.price.toFixed(2)}</td>
+            <td>${p.quantity} ${p.quantity <= 5 ? '<span class="low-stock">Low!</span>' : ''}</td>
+            <td>${p.barcode || '-'}</td>
+            <td>
+              <button class="btn-icon edit-product" data-id="${p.id}">✏️</button>
+              <button class="btn-icon delete-product" data-id="${p.id}">🗑️</button>
+            </td>
+          </tr>
+        `).join('');
+        
+        document.querySelectorAll('.edit-product').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const id = parseInt(btn.dataset.id);
+            const product = products.find(p => p.id === id);
+            if (product) {
+              const newName = prompt('Product name:', product.name);
+              if (newName) product.name = newName;
+              const newPrice = parseFloat(prompt('Price:', product.price));
+              if (!isNaN(newPrice)) product.price = newPrice;
+              const newQty = parseInt(prompt('Quantity:', product.quantity));
+              if (!isNaN(newQty)) product.quantity = newQty;
+              const newBarcode = prompt('Barcode:', product.barcode || '');
+              product.barcode = newBarcode;
+              await updateProduct(product);
+              showToast('Product updated!');
+              renderProducts();
+            }
+          });
+        });
+        
+        document.querySelectorAll('.delete-product').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            if (confirm('Delete this product?')) {
+              await deleteProduct(parseInt(btn.dataset.id));
+              showToast('Product deleted!');
+              renderProducts();
+            }
+          });
+        });
+      }
+      
+      renderList(products);
+      
+      document.getElementById('searchProduct').addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase();
+        const filtered = products.filter(p => 
+          p.name.toLowerCase().includes(term) || 
+          (p.barcode && p.barcode.toLowerCase().includes(term))
+        );
+        renderList(filtered);
+      });
+      
+      document.getElementById('addProductBtn').addEventListener('click', async () => {
+        const name = prompt('Product name:');
+        if (!name) return;
+        const price = parseFloat(prompt('Price:'));
+        if (isNaN(price)) return;
+        const quantity = parseInt(prompt('Quantity:'));
+        if (isNaN(quantity)) return;
+        const barcode = prompt('Barcode (optional):') || '';
+        
+        await addProduct({ name, price, quantity, barcode, created_at: new Date().toISOString() });
+        showToast('Product added!');
+        renderProducts();
+      });
+    }
+    
+    // Render POS
+    let currentCart = [];
+    
+    async function renderPOS() {
+      const products = await getAllProducts();
+      currentCart = [];
+      
+      const content = document.getElementById('pageContent');
+      content.innerHTML = `
+        <div class="card">
+          <h3>💰 Point of Sale</h3>
+          <div class="search-box">
+            <input type="text" id="posSearch" placeholder="🔍 Search product by name or barcode...">
+          </div>
+          <div id="searchResults"></div>
+        </div>
+        <div class="card">
+          <h3>🛒 Current Cart</h3>
+          <div id="cartItems"></div>
+          <div class="flex-between">
+            <strong>Total:</strong>
+            <span class="cart-total" id="cartTotal">$0.00</span>
+          </div>
+          <button id="completeSaleBtn" class="btn-primary">✅ Complete Sale</button>
+        </div>
+      `;
+      
+      function updateCart() {
+        const cartDiv = document.getElementById('cartItems');
+        let total = 0;
+        
+        if (currentCart.length === 0) {
+          cartDiv.innerHTML = '<p style="color: #6b7a8a;">Cart is empty</p>';
+        } else {
+          cartDiv.innerHTML = currentCart.map((item, idx) => {
+            total += item.price * item.quantity;
+            return `
+              <div class="cart-item">
+                <div>
+                  <strong>${escapeHtml(item.name)}</strong>
+                  <div>$${item.price} x ${item.quantity}</div>
+                </div>
+                <div>
+                  <strong>$${(item.price * item.quantity).toFixed(2)}</strong>
+                  <button class="btn-icon remove-from-cart" data-idx="${idx}">🗑️</button>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+        
+        document.getElementById('cartTotal').innerText = `$${total.toFixed(2)}`;
+        
+        document.querySelectorAll('.remove-from-cart').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const idx = parseInt(btn.dataset.idx);
+            currentCart.splice(idx, 1);
+            updateCart();
+          });
+        });
+      }
+      
+      function searchProducts() {
+        const term = document.getElementById('posSearch').value.toLowerCase();
+        const filtered = products.filter(p => 
+          p.name.toLowerCase().includes(term) || 
+          (p.barcode && p.barcode.includes(term))
+        );
+        
+        const resultsDiv = document.getElementById('searchResults');
+        resultsDiv.innerHTML = filtered.map(p => `
+          <div class="product-item">
+            <div>
+              <strong>${escapeHtml(p.name)}</strong>
+              <div>$${p.price} | Stock: ${p.quantity}</div>
+            </div>
+            <button class="btn-secondary add-to-cart" 
+              data-id="${p.id}"
+              data-name="${p.name}"
+              data-price="${p.price}"
+              data-stock="${p.quantity}">
+              ➕ Add
+            </button>
+          </div>
+        `).join('');
+        
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const id = parseInt(btn.dataset.id);
+            const name = btn.dataset.name;
+            const price = parseFloat(btn.dataset.price);
+            const stock = parseInt(btn.dataset.stock);
+            
+            const existing = currentCart.find(item => item.id === id);
+            if (existing) {
+              if (existing.quantity + 1 <= stock) {
+                existing.quantity++;
+              } else {
+                showToast('Not enough stock!');
+                return;
+              }
+            } else {
+              if (stock > 0) {
+                currentCart.push({ id, name, price, quantity: 1 });
+              } else {
+                showToast('Out of stock!');
+                return;
+              }
+            }
+            updateCart();
+            showToast(`Added ${name}`);
+          });
+        });
+      }
+      
+      document.getElementById('posSearch').addEventListener('input', searchProducts);
+      searchProducts();
+      updateCart();
+      
+      document.getElementById('completeSaleBtn').addEventListener('click', async () => {
+        if (currentCart.length === 0) {
+          showToast('Cart is empty!');
+          return;
+        }
+        
+        const total = currentCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        
+        const saleId = await addSale({
+          total,
+          created_at: new Date().toISOString()
+        });
+        
+        for (const item of currentCart) {
+          await addSaleItem({
+            sale_id: saleId,
+            product_id: item.id,
+            quantity: item.quantity,
+            price: item.price
+          });
+          
+          const product = products.find(p => p.id === item.id);
+          if (product) {
+            product.quantity -= item.quantity;
+            await updateProduct(product);
+          }
+        }
+        
+        showToast(`Sale complete! Total: $${total.toFixed(2)}`);
+        renderPOS();
+      });
+    }
+    
+    // Render Reports
+    async function renderReports() {
+      const products = await getAllProducts();
+      const sales = await getSales();
+      
+      let totalRevenue = 0;
+      for (const sale of sales) {
+        totalRevenue += sale.total || 0;
+      }
+      
+      const content = document.getElementById('pageContent');
+      content.innerHTML = `
+        <div class="card">
+          <h3>📊 Sales Overview</h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-number">$${totalRevenue.toFixed(2)}</div>
+              <div class="stat-label">Total Revenue</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">${sales.length}</div>
+              <div class="stat-label">Total Sales</div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>📅 Recent Transactions</h3>
+          ${sales.slice(-10).reverse().map(sale => `
+            <div class="flex-between" style="padding: 0.5rem 0; border-bottom: 1px solid #e2e8f0;">
+              <span>Sale #${sale.id}</span>
+              <strong>$${sale.total.toFixed(2)}</strong>
+              <span style="font-size: 0.8rem;">${new Date(sale.created_at).toLocaleString()}</span>
+            </div>
+          `).join('') || '<p>No sales yet</p>'}
+        </div>
+      `;
+    }
+    
+    // Navigation
+    function navigateTo(page) {
+      if (page === 'dashboard') renderDashboard();
+      else if (page === 'products') renderProducts();
+      else if (page === 'pos') renderPOS();
+      else if (page === 'reports') renderReports();
+      
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.querySelector(`[data-page="${page}"]`);
+      if (activeBtn) activeBtn.classList.add('active');
+    }
+    
+    // Login function - SIMPLE AND WORKING
+    function login(email, password) {
+      if (email === 'admin@hellobuyer.com' && password === 'admin123') {
+        currentUser = { email, name: 'Admin' };
+        localStorage.setItem('hellobuyer_user', JSON.stringify(currentUser));
+        return true;
+      }
+      return false;
+    }
+    
+    function checkAuth() {
+      const user = localStorage.getItem('hellobuyer_user');
+      if (user) {
+        currentUser = JSON.parse(user);
+        return true;
+      }
+      return false;
+    }
+    
+    function logout() {
+      localStorage.removeItem('hellobuyer_user');
+      currentUser = null;
+      document.getElementById('loginScreen').style.display = 'flex';
+      document.getElementById('appScreen').style.display = 'none';
+      showToast('Logged out');
+    }
+    
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+      });
+    }
+    
+    // Initialize App
+    async function initApp() {
+      await initDB();
+      
+      const loginBtn = document.getElementById('loginBtn');
+      if (loginBtn) {
+        loginBtn.onclick = function() {
+          const email = document.getElementById('loginEmail').value;
+          const password = document.getElementById('loginPassword').value;
+          
+          if (login(email, password)) {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('appScreen').style.display = 'block';
+            renderDashboard();
+            
+            // Setup navigation
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+              btn.onclick = () => navigateTo(btn.getAttribute('data-page'));
+            });
+            
+            document.getElementById('logoutBtn').onclick = logout;
+          } else {
+            showToast('Invalid credentials! Use: admin@hellobuyer.com / admin123');
+          }
+        };
+      }
+      
+      // Enter key support
+      const passwordInput = document.getElementById('loginPassword');
+      if (passwordInput) {
+        passwordInput.onkeypress = function(e) {
+          if (e.key === 'Enter') {
+            document.getElementById('loginBtn').click();
+          }
+        };
+      }
+      
+      if (checkAuth()) {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('appScreen').style.display = 'block';
+        renderDashboard();
+        
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+          btn.onclick = () => navigateTo(btn.getAttribute('data-page'));
+        });
+        
+        document.getElementById('logoutBtn').onclick = logout;
+      }
+    }
+    
+    // Start the app
+    initApp();
+  </script>
 </body>
 </html>
