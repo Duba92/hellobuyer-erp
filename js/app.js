@@ -1,6 +1,6 @@
 // Supabase Configuration (REPLACE WITH YOUR KEYS - Optional)
-const SUPABASE_URL = 'https://your-project.supabase.co';
-const SUPABASE_ANON_KEY = 'your-anon-key';
+const SUPABASE_URL = 'https://drjknkqdgrwxyzlxdffp.supabase.co/rest/v1/';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRyamtua3FkZ3J3eHl6bHhkZmZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MDc2MTcsImV4cCI6MjA5NDE4MzYxN30.tsB5iskzJomNp2_5DOc1IEbSt2E1OpDgFoHYTUKz0fY';
 
 let supabase = null;
 let currentUser = null;
